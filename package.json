@@ -13,10 +13,6 @@
     "coverage": "NODE_ENV=test babel-node ./node_modules/.bin/isparta cover _mocha -- --recursive --reporter spec --compilers js:babel-register tests",
     "validate": "npm run test && npm outdated --depth 0"
   },
-  "engines": {
-    "node": "12.18.0",
-    "npm": "6.9.x"
-  },
   "repository": {
     "type": "git",
     "url": ""
