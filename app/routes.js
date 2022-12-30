@@ -10,8 +10,9 @@ const routes = new Router();
 routes.post('/api/users/register', UsersController.register);
 routes.post('/api/users/register', UsersController.login);
 routes.get('/api/get-stats', IotController.getStats)
-routes.get('/api/get-cities', IotController.getCitiesFromState)
-routes.get('/api/get-branches', IotController.getBranchesFromCity)
+routes.get('/api/get-cities', IotController.getCities)
+routes.get('/api/get-states', IotController.getStates)
+routes.get('/api/get-branches', IotController.getBranchs)
 routes.get('/api/get-branchInfo', IotController.getBranchInfo)
 
 routes.use(errorHandler);

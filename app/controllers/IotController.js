@@ -16,11 +16,54 @@ class IotController extends BaseController {
 		};
 	}
 
+   getStates = async (req, res, next) => {
+	try {
+		if(!req.query.state) {
+			const states = await Location.find({}).select('state').distinct('state').exec();
+		return res.send({
+				result: states
+			})
+		}
+	} catch (err) {
+		next(err);
+	}
+   }
+   getCities = async (req, res, next) => {
+	try {
+		if(!req.query.city) {
+			const cities = await Location.find({}).select('city').distinct('city').exec();
+		return res.send({
+				result: cities
+			})
+		}
+	} catch (err) {
+		next(err);
+	}
+   }
+   
+   getBranchs = async(req, res, next) => {
+	try {
+		if(!req.query.branch) {
+			const branches = await Location.find({}).select('location').distinct('location').exec();
+		return res.send({
+				result: branches
+			})
+		}
+	} catch (err) {
+		next(err);
+	}
+   }
 	getCitiesFromState = async (req, res, next) => {
 		try {
+			if(!req.query.state) {
+				const states = await Location.find({}).select('location').distinct('location').exec();
+			return res.send({
+					result: states
+				})
+			}
 			const stateName = req.query.state;
 			const cities = await Location.find({ state: stateName }).select('city').distinct('city').exec();
-			res.send({
+		 	res.send({
 				cities
 			})
 		} catch (err) {
@@ -29,11 +72,19 @@ class IotController extends BaseController {
 	}
 	getBranchesFromCity = async (req, res, next) => {
 		try {
-			const cityName = req.query.city;
-			const branches = await Location.find({ city: cityName }).select('location').distinct('location').exec();
-			res.send({
-				branches
-			})
+			if(!req.query.city) {
+				const cities = await Location.find({}).select('city').distinct('city').exec();
+			return res.send({
+					result: cities
+				})
+			} else {
+				const cityName = req.query.city;
+				const branches = await Location.find({ city: cityName }).select('location').distinct('location').exec();
+				res.send({
+					branches
+				})
+			}
+		
 		} catch (err) {
 			next(err)
 		}
