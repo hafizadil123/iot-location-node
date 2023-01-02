@@ -1,6 +1,8 @@
 import BaseController from './base.controller';
 import Location from '../models/locations';
 import constants from '../config/constants';
+import Devices from '../models/devices';
+import DevicesData from '../models/deviceData';
 import axios from 'axios';
 
 class IotController extends BaseController {
@@ -100,15 +102,45 @@ class IotController extends BaseController {
 	getBranchInfo = async (req, res, next) => {
 		try {
 			const branchName = req.query.branch;
+			let electricity, monitors, ambient = null;
+			let final;
+			let obj = {};
+			const getLatLong = await Location.findOne({location: branchName}).lean().exec();
 			// implement weather api 
+			console.log('location_id', getLatLong)
+			const url = `${constants.weatherApi}?key=${constants.weatherApiKey}&q=${getLatLong.lat+','+getLatLong.long}&aqi=yes`
+			const device_type_ids = [1,2,3,4,5];
+			device_type_ids.forEach(async(item) => {
+				
+				const deviceInfo = await Devices.findOne({location_id: getLatLong.location_id, device_type_id: item}).lean().select('device_nickname device_type_id').exec();
+				if(deviceInfo){
+					obj = {
+						[item]: deviceInfo
+					}
+					return obj;
+				}
+				console.log('obj', obj)
+				if(Object.keys(obj).length > 0) {
 
-			const url = `${constants.weatherApi}?key=${constants.weatherApiKey}&q=${branchName}&aqi=yes`
+					const device_data = await DevicesData.findOne({dev_name: obj.device_nickname}).lean().exec();
+					final = device_data;
+					return final;
+				}
+			})
+			
+			
+			
+			console.log('device_type_id', final)
+			
 			axios.get(url, {
 				headers: { "Accept-Encoding": "gzip,deflate,compress" }
 			}).then(result => {
 				const response = result.data;
 				res.send({
-					branchInfo: response
+					result: response,
+					electricity,
+					monitors,
+					ambient
 				})
 			})
 		} catch (err) {

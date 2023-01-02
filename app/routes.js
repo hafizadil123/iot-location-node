@@ -15,6 +15,7 @@ routes.get('/api/get-states', IotController.getStates)
 routes.get('/api/get-branches', IotController.getBranchs)
 routes.get('/api/get-branchInfo', IotController.getBranchInfo)
 
+
 routes.use(errorHandler);
 
 export default routes;
