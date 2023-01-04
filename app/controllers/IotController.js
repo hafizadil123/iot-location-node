@@ -109,28 +109,27 @@ class IotController extends BaseController {
 			// implement weather api 
 			console.log('location_id', getLatLong)
 			const url = `${constants.weatherApi}?key=${constants.weatherApiKey}&q=${getLatLong.lat+','+getLatLong.long}&aqi=yes`
-			const device_type_ids = [1,2,3,4,5];
-			device_type_ids.forEach(async(item) => {
+			// const device_type_ids = [1,2,3,4,5];
+			// device_type_ids.forEach(async(item) => {
 				
-				const deviceInfo = await Devices.findOne({location_id: getLatLong.location_id, device_type_id: item}).lean().select('device_nickname device_type_id').exec();
-				if(deviceInfo){
-					obj = {
-						[item]: deviceInfo
-					}
-					return obj;
-				}
-				console.log('obj', obj)
-				if(Object.keys(obj).length > 0) {
+			// 	const deviceInfo = await Devices.findOne({location_id: getLatLong.location_id, device_type_id: item}).lean().select('device_nickname device_type_id').exec();
+			// 	if(deviceInfo){
+			// 		obj = {
+			// 			[item]: deviceInfo
+			// 		}
+			// 		return obj;
+			// 	}
+			// 	console.log('obj', obj)
+			// 	if(Object.keys(obj).length > 0) {
 
-					const device_data = await DevicesData.findOne({dev_name: obj.device_nickname}).lean().exec();
-					final = device_data;
-					return final;
-				}
-			})
+			// 		const device_data = await DevicesData.findOne({dev_name: obj.device_nickname}).lean().exec();
+			// 		final = device_data;
+			// 		return final;
+			// 	}
+			// })
+		
 			
-			
-			
-			console.log('device_type_id', final)
+			// console.log('device_type_id', final)
 			
 			axios.get(url, {
 				headers: { "Accept-Encoding": "gzip,deflate,compress" }
@@ -138,9 +137,7 @@ class IotController extends BaseController {
 				const response = result.data;
 				res.send({
 					result: response,
-					electricity,
-					monitors,
-					ambient
+				
 				})
 			})
 		} catch (err) {

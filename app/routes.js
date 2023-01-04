@@ -14,7 +14,8 @@ routes.get('/api/get-cities', IotController.getCities)
 routes.get('/api/get-states', IotController.getStates)
 routes.get('/api/get-branches', IotController.getBranchs)
 routes.get('/api/get-branchInfo', IotController.getBranchInfo)
-
+routes.get('/api/get-city-from-state', IotController.getCitiesFromState)
+routes.get('/api/get-branch-from-city', IotController.getBranchesFromCity)
 
 routes.use(errorHandler);
 
