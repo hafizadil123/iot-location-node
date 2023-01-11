@@ -336,6 +336,7 @@ class IotController extends BaseController {
 			...luxAndAQ
           });
         });
+		//done
     } catch (err) {
       console.log("err", err);
       next(err);
