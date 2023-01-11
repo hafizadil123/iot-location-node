@@ -7,15 +7,12 @@
     "build": "npm run clean && babel app -d build",
     "clean": "rm -rf build && mkdir build",
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "NODE_ENV=test mocha --recursive --reporter spec --compilers js:babel-register tests",
     "lint": "eslint app",
     "test:watch": "nodemon --exec 'npm run test' tests",
     "coverage": "NODE_ENV=test babel-node ./node_modules/.bin/isparta cover _mocha -- --recursive --reporter spec --compilers js:babel-register tests",
     "validate": "npm run test && npm outdated --depth 0"
-  },
-  "engines": {
-    "node": "18.x.x",
-    "npm": "8.x.x"
   },
   "repository": {
     "type": "git",
@@ -40,7 +37,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.7.7",
     "@babel/plugin-transform-async-to-generator": "^7.7.4",
     "@sendgrid/mail": "^7.4.6",
-    "axios": "^1.2.1",
+    "axios": "^0.21.4",
     "babel-cli": "^6.18.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^7.0.0",
