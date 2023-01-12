@@ -240,20 +240,20 @@ class IotController extends BaseController {
       {
         start: "0.00",
         end: "9:00",
-        level: "79%",
+        level: "79",
         variation: "0",
       },
       {
         start: "9.00",
         end: "18:02",
-        level: "44%",
+        level: "44",
         variation: "44-79",
       },
 
       {
         start: "18:02",
         end: "0.00",
-        level: "79%",
+        level: "79",
         variation: "0",
       }
     ];
@@ -280,7 +280,7 @@ class IotController extends BaseController {
       {
         start: "9.00",
         end: "16:12",
-        level: "84%",
+        level: "84",
         variation: "44-79",
       },
 
