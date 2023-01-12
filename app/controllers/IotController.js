@@ -4,6 +4,7 @@ import constants from "../config/constants";
 import Devices from "../models/devices";
 import DevicesData from "../models/deviceData";
 import axios from "axios";
+import moment from "moment";
 import { readFile, writeFile } from "fs";
 
 class IotController extends BaseController {
@@ -118,6 +119,7 @@ class IotController extends BaseController {
     });
     return res;
   };
+  getDevice3Data = () => {};
   getDeviceId3And4Data = async () => {
     const deviceId3 = [
       {
@@ -155,7 +157,7 @@ class IotController extends BaseController {
       },
       {
         start: "20.00",
-        end: "00:00",
+        end: "23:59",
         level: "84",
         variation: "5%",
       },
@@ -196,7 +198,7 @@ class IotController extends BaseController {
       },
       {
         start: "20.10",
-        end: "00:00",
+        end: "23:59",
         level: "390",
         variation: "5%",
       },
@@ -208,7 +210,24 @@ class IotController extends BaseController {
       let m = this.addZero(d.getMinutes());
       let time = h + ":" + m;
       console.log({ time });
-      return deviceId3.find((e) => time >= e.start && time <= e.end);
+      return deviceId3.find((e) => {
+        let formattedTime = moment(time, "HH:mm").format("HH:mm");
+        let _startTime = moment(e.start, "HH:mm").format("HH:mm");
+        let _endTime = moment(e.end, "HH:mm").format("HH:mm");
+        // var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+        var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+
+        if (
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) >= parseInt(_startTime.replace(regExp, "$1$2$3"))   &&
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) <= parseInt(_endTime.replace(regExp, "$1$2$3"))
+        ) {
+          console.log("----------------------------------------------------------------------------------------------");
+         return e
+        }
+        // if(endTime.isBefore(formattedTime) && startTime.isAfter(formattedTime) ){
+        //   return e;
+        // }
+      });
     };
 
     const getInfoDevice4 = () => {
@@ -216,7 +235,23 @@ class IotController extends BaseController {
       let h = this.addZero(d.getHours());
       let m = this.addZero(d.getMinutes());
       let time = h + ":" + m;
-      return deviceId4.find((e) => time >= e.start && time <= e.end);
+      return deviceId4.find((e) =>{
+
+        let formattedTime = moment(time, "HH:mm").format("HH:mm");
+        let _startTime = moment(e.start, "HH:mm").format("HH:mm");
+        let _endTime = moment(e.end, "HH:mm").format("HH:mm");
+        // var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+        var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+
+        if (
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) >= parseInt(_startTime.replace(regExp, "$1$2$3"))   &&
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) <= parseInt(_endTime.replace(regExp, "$1$2$3"))
+        ) {
+          console.log("----------------------------------------------------------------------------------------------");
+         return e
+        }
+        
+      });
     };
     const d3Data = getInfo();
     const d4Data = getInfoDevice4();
@@ -235,7 +270,7 @@ class IotController extends BaseController {
     }
     return i;
   };
-  getDevice6Data= () => {
+  getDevice6Data = () => {
     const deviceId6 = [
       {
         start: "0.00",
@@ -252,10 +287,10 @@ class IotController extends BaseController {
 
       {
         start: "18:02",
-        end: "0.00",
+        end: "23:59",
         level: "79",
         variation: "0",
-      }
+      },
     ];
     const getInfoDeviceId6 = () => {
       const d = new Date();
@@ -263,13 +298,27 @@ class IotController extends BaseController {
       let m = this.addZero(d.getMinutes());
       let time = h + ":" + m;
       console.log({ time });
-      return deviceId6.find((e) => time >= e.start && time <= e.end);
+      return deviceId6.find((e) => {
+        let formattedTime = moment(time, "HH:mm").format("HH:mm");
+        let _startTime = moment(e.start, "HH:mm").format("HH:mm");
+        let _endTime = moment(e.end, "HH:mm").format("HH:mm");
+        // var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+        var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+
+        if (
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) >= parseInt(_startTime.replace(regExp, "$1$2$3"))   &&
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) <= parseInt(_endTime.replace(regExp, "$1$2$3"))
+        ) {
+          console.log("----------------------------------------------------------------------------------------------");
+         return e
+        }
+      });
     };
     const deviceId6Data = getInfoDeviceId6();
     console.log({ deviceId6Data });
     return deviceId6Data.level;
   };
-  getDevice7Data= () => {
+  getDevice7Data = () => {
     const deviceId7 = [
       {
         start: "0.00",
@@ -285,21 +334,21 @@ class IotController extends BaseController {
       },
 
       {
-        start:"16:12",
+        start: "16:12",
         end: "16:12",
         level: "0",
         variation: "0",
       },
 
       {
-        start:"16:12",
+        start: "16:12",
         end: "20:06",
         level: "28",
         variation: "5%",
       },
       {
-        start:"20:06",
-        end: "0:00",
+        start: "20:06",
+        end: "23:59",
         level: "0",
         variation: "5%",
       },
@@ -310,7 +359,21 @@ class IotController extends BaseController {
       let m = this.addZero(d.getMinutes());
       let time = h + ":" + m;
       console.log({ time });
-      return deviceId7.find((e) => time >= e.start && time <= e.end);
+      return deviceId7.find((e) => {
+        let formattedTime = moment(time, "HH:mm").format("HH:mm");
+        let _startTime = moment(e.start, "HH:mm").format("HH:mm");
+        let _endTime = moment(e.end, "HH:mm").format("HH:mm");
+        // var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+        var regExp = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
+
+        if (
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) >= parseInt(_startTime.replace(regExp, "$1$2$3"))   &&
+          parseInt(formattedTime.replace(regExp, "$1$2$3")) <= parseInt(_endTime.replace(regExp, "$1$2$3"))
+        ) {
+          console.log("----------------------------------------------------------------------------------------------");
+         return e
+        }
+      });
     };
     const deviceId7Data = getInfoDeviceId7();
     console.log({ deviceId7Data });
@@ -331,9 +394,8 @@ class IotController extends BaseController {
         const diffTime = _endDate - _startDate;
 
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        console.log({diffDays})
+        console.log({ diffDays });
         if (diffDays < 1) {
-          
           //we'll write the file again
           const date = new Date();
           const dataToStore = JSON.stringify({
@@ -342,9 +404,9 @@ class IotController extends BaseController {
             divisionFactor: "2.22222222",
           });
 
-          writeFile("./app/data/device5.json",dataToStore,function(error){
-            if(error){
-              console.log("sss",error)
+          writeFile("./app/data/device5.json", dataToStore, function (error) {
+            if (error) {
+              console.log("sss", error);
             }
             resolve(100);
           });
@@ -352,7 +414,7 @@ class IotController extends BaseController {
           const level = Math.floor(
             100 - (45 - diffDays) * Number(divisionFactor)
           );
-          resolve(level)
+          resolve(level);
         }
       });
     });
@@ -366,15 +428,14 @@ class IotController extends BaseController {
         }
         // Display the file content
         const device5Data = JSON.parse(data);
-        const { endDate  } = device5Data;
+        const { endDate } = device5Data;
         const _startDate = new Date();
         const _endDate = new Date(endDate);
         const diffTime = _endDate - _startDate;
 
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        console.log({diffDays})
+        console.log({ diffDays });
         if (diffDays < 1) {
-          
           //we'll write the file again
           const date = new Date();
           const dataToStore = JSON.stringify({
@@ -382,15 +443,14 @@ class IotController extends BaseController {
             endDate: new Date(date.setDate(date.getDate() + 180)),
           });
 
-          writeFile("./app/data/device8.json",dataToStore,function(error){
-            if(error){
-              console.log("sss",error)
+          writeFile("./app/data/device8.json", dataToStore, function (error) {
+            if (error) {
+              console.log("sss", error);
             }
             resolve(180);
           });
         } else {
-          
-          resolve(diffDays)
+          resolve(diffDays);
         }
       });
     });
@@ -404,15 +464,14 @@ class IotController extends BaseController {
         }
         // Display the file content
         const device5Data = JSON.parse(data);
-        const { endDate  } = device5Data;
+        const { endDate } = device5Data;
         const _startDate = new Date();
         const _endDate = new Date(endDate);
         const diffTime = _endDate - _startDate;
 
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        console.log({diffDays})
+        console.log({ diffDays });
         if (diffDays < 1) {
-          
           //we'll write the file again
           const date = new Date();
           const dataToStore = JSON.stringify({
@@ -420,15 +479,14 @@ class IotController extends BaseController {
             endDate: new Date(date.setDate(date.getDate() + 90)),
           });
 
-          writeFile("./app/data/device9.json",dataToStore,function(error){
-            if(error){
-              console.log("sss",error)
+          writeFile("./app/data/device9.json", dataToStore, function (error) {
+            if (error) {
+              console.log("sss", error);
             }
             resolve(180);
           });
         } else {
-          
-          resolve(diffDays)
+          resolve(diffDays);
         }
       });
     });
@@ -522,12 +580,12 @@ class IotController extends BaseController {
 
       // console.log('device_type_id', final)
       const luxAndAQ = await this.getDeviceId3And4Data();
-      const handWashLevel=await this.getDevice6Data();
-      const garbageMonitor=await this.getDevice7Data();
+      const handWashLevel = await this.getDevice6Data();
+      const garbageMonitor = await this.getDevice7Data();
       const airNuetrelizer = await this.getDevice5Data();
-      const DGSetServiceDue=await this.getDevice8Data();
-      const acServiceDue= await this.getDevice9Data();
-      console.log({ airNuetrelizer,DGSetServiceDue });
+      const DGSetServiceDue = await this.getDevice8Data();
+      const acServiceDue = await this.getDevice9Data();
+      console.log({ airNuetrelizer, DGSetServiceDue });
 
       axios
         .get(url, {
@@ -545,7 +603,7 @@ class IotController extends BaseController {
             DGSetServiceDue,
             acServiceDue,
             handWashLevel,
-            garbageMonitor
+            garbageMonitor,
           });
         });
       //done
