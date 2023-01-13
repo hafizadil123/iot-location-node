@@ -224,8 +224,8 @@ class IotController extends BaseController {
     };
     const d3Data=getInfo();
 	const d4Data=getInfoDevice4();
-	const lux=d3Data.level;
-	const AQ=d4Data.level;
+	const lux=d3Data && d3Data.level || '0';
+	const AQ= d4Data && d4Data.level || '0';
 	console.log({lux,AQ})
     return {
       lux,
