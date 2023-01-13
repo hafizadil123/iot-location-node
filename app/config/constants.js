@@ -14,7 +14,7 @@ const defaultConfig = {
 
   version: require('../../package.json').version,
   root: path.normalize(__dirname + '/../../..'),
-  port: process.env.PORT || 3001,
+  port: process.env.PORT || 5000,
   ip: process.env.IP || '0.0.0.0',
   apiPrefix: '', // Could be /api/resource or /api/v2/resource
   userRoles: ['user', 'admin'],
